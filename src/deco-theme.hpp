@@ -5,7 +5,7 @@
 
 #define MIN_RESIZE_HANDLE_SIZE 5
 #define LARGE_ICON_THRESHOLD 20
-#define MIN_BAR_HEIGHT 20
+#define MIN_BAR_HEIGHT 12
 
 namespace wf
 {

@@ -70,7 +70,6 @@ int pixdecor_theme_t::get_title_height()
     int height = get_font_height_px();
     height *= 3;
     height /= 2;
-    height += 8;
     if (height < MIN_BAR_HEIGHT)
     {
         height = MIN_BAR_HEIGHT;
