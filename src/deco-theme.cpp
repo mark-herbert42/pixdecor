@@ -117,15 +117,11 @@ void vkdecor_theme_t::render_background(const wf::scene::render_instruction_t& d
 {
     if (std::string(overlay_engine) == "none")
     {
-        data.pass->custom_gles_subpass(data.target, [&]
-        {
+
             for (auto& box : data.damage)
             {
-                wf::gles::render_target_logic_scissor(data.target, wlr_box_from_pixman_box(box));
-                OpenGL::render_rectangle(rectangle, get_decor_color(active),
-                    wf::gles::render_target_orthographic_projection(data.target));
+                 data.pass->add_rect(get_decor_color(active), data.target, rectangle, wlr_box_from_pixman_box(box));
             }
-        });
     } else
     {
         smoke.render_effect(data, rectangle);

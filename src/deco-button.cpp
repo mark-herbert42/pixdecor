@@ -67,36 +67,15 @@ void button_t::set_pressed(bool is_pressed)
 
 void button_t::render(const wf::scene::render_instruction_t& data, wf::geometry_t geometry)
 {
+
+
     if (this->hover.running())
     {
+ data.pass->add_texture(button_texture_hovered.get_texture(), data.target, geometry, data.damage);
         add_idle_damage();
-    }
-
-    OpenGL::render_texture(
-        wf::gles_texture_t{button_texture.get_texture()}, data.target, geometry, {1, 1, 1, this->hover},
-        OpenGL::RENDER_FLAG_CACHED);
-    data.pass->custom_gles_subpass(data.target, [&]
-    {
-        for (auto& box : data.damage)
-        {
-            wf::gles::render_target_logic_scissor(data.target, wlr_box_from_pixman_box(box));
-            OpenGL::draw_cached();
-        }
-    });
-    OpenGL::clear_cached();
-
-    OpenGL::render_texture(
-        wf::gles_texture_t{button_texture_hovered.get_texture()}, data.target, geometry, {1, 1, 1, 1.0 - this->hover},
-        OpenGL::RENDER_FLAG_CACHED);
-    data.pass->custom_gles_subpass(data.target, [&]
-    {
-        for (auto& box : data.damage)
-        {
-            wf::gles::render_target_logic_scissor(data.target, wlr_box_from_pixman_box(box));
-            OpenGL::draw_cached();
-        }
-    });
-    OpenGL::clear_cached();
+    } else {
+ data.pass->add_texture(button_texture.get_texture(), data.target, geometry, data.damage);
+  }
 }
 
 wf::dimensions_t button_t::update_texture()
@@ -111,13 +90,10 @@ wf::dimensions_t button_t::update_texture()
     wf::dimensions_t size_normal{cairo_image_surface_get_width(surfaces->normal),
         cairo_image_surface_get_height(surfaces->normal)};
     // wf::dimensions_t size_hovered{cairo_image_surface_get_width(surfaces->hovered),
-    // cairo_image_surface_get_height(surfaces->hovered)};
+    // cairo_image_surface_get_height(surfaces->hovered)}
 
-    wf::gles::run_in_context([&]
-    {
         this->button_texture = owned_texture_t{surfaces->normal};
         this->button_texture_hovered = owned_texture_t{surfaces->hovered};
-    });
 
     cairo_surface_destroy(surfaces->normal);
     cairo_surface_destroy(surfaces->hovered);

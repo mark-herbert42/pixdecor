@@ -93,7 +93,7 @@ class vkdecor_shade : public wf::scene::view_2d_transformer_t
                     ((src_box.height - titlebar) / float(src_box.height)));
             auto progress_height = src_box.height;
             shade_region &= wf::region_t{src_box};
-            wf::gles::run_in_context([&]
+            wf::gles::run_in_context_if_gles([&]
             {
                 wf::gles::bind_render_buffer(data.target);
                 data.pass->custom_gles_subpass(data.target, [&]

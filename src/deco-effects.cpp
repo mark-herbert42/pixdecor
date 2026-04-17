@@ -201,7 +201,7 @@ void smoke_t::destroy_programs()
 void smoke_t::create_programs()
 {
     destroy_programs();
-    wf::gles::run_in_context([&]
+    wf::gles::run_in_context_if_gles([&]
     {
         if (std::string(overlay_engine) == "rounded_corners")
             setup_shader(&render_overlay_program, rounded_corner_overlay);		
@@ -356,7 +356,7 @@ void smoke_t::step_effect(const wf::scene::render_instruction_t& data, wf::geome
 
     int radius = shadow_radius;
 
-    wf::gles::run_in_context([&]
+    wf::gles::run_in_context_if_gles([&]
     {
         wf::gles::bind_render_buffer(data.target);
         if ((rectangle.width != saved_width) || (rectangle.height != saved_height))
@@ -450,7 +450,7 @@ void smoke_t::render_effect(const wf::scene::render_instruction_t& data, wf::geo
 void smoke_t::effect_updated()
 {
     create_programs();
-    wf::gles::run_in_context([&]
+    wf::gles::run_in_context_if_gles([&]
     {
         recreate_textures(wf::geometry_t{0, 0, saved_width, saved_height});
     });

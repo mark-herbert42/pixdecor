@@ -145,7 +145,8 @@ class simple_decoration_node_t : public wf::scene::node_t, public wf::pointer_in
         const wf::geometry_t& geometry, int t_width, int border, int buttons_width)
     {
         update_title(geometry.width, geometry.height, t_width, border, buttons_width, data.target.scale);
-        OpenGL::render_texture(wf::gles_texture_t{title_texture.tex.get_texture()}, data.target, geometry,
+        data.pass->add_texture( title_texture.tex.get_texture(), data.target, geometry, data.damage, 1.0 );
+/*        OpenGL::render_texture(wf::gles_texture_t{title_texture.tex.get_texture()}, data.target, geometry,
             glm::vec4(1.0f), OpenGL::RENDER_FLAG_CACHED);
 
         data.pass->custom_gles_subpass(data.target, [&]
@@ -157,7 +158,7 @@ class simple_decoration_node_t : public wf::scene::node_t, public wf::pointer_in
             }
         });
 
-        OpenGL::clear_cached();
+        OpenGL::clear_cached();*/
     }
 
     void render_region(const wf::scene::render_instruction_t& data, wf::point_t origin)
@@ -179,12 +180,12 @@ class simple_decoration_node_t : public wf::scene::node_t, public wf::pointer_in
             origin.y -
             ((maximized && (!maximized_shadows || !maximized_borders)) ? -border / 2 : border / 4)};
 
-        wf::gles::run_in_context([&]
+  /*      wf::gles::run_in_context_if_gles([&]
         {
-            wf::gles::bind_render_buffer(data.target);
+            wf::gles::bind_render_buffer(data.target);*/
 
             theme.render_background(data, geometry, activated, current_cursor_position);
-
+      
             if (((std::string(titlebar_opt) == "never") ||
                  ((std::string(titlebar_opt) == "maximized") && !maximized) ||
                  ((std::string(titlebar_opt) == "windowed") && maximized)) &&
@@ -217,7 +218,7 @@ class simple_decoration_node_t : public wf::scene::node_t, public wf::pointer_in
                         item->get_geometry() + origin);
                 }
             }
-        });
+  /*      });*/
     }
 
     std::optional<wf::scene::input_node_t> find_node_at(const wf::pointf_t& at) override
