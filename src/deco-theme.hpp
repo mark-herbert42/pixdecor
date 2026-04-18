@@ -20,7 +20,6 @@ class vkdecor_theme_t
   public:
     wf::option_wrapper_t<std::string> title_font{"vkdecor/title_font"};
     wf::option_wrapper_t<std::string> overlay_engine{"vkdecor/overlay_engine"};
-    wf::option_wrapper_t<std::string> effect_type{"vkdecor/effect_type"};
     wf::option_wrapper_t<bool> maximized_borders{"vkdecor/maximized_borders"};
     wf::option_wrapper_t<bool> maximized_shadows{"vkdecor/maximized_shadows"};
     wf::option_wrapper_t<int> title_text_align{"vkdecor/title_text_align"};
